@@ -1,0 +1,3 @@
+data/wei/li_wei_7.wav|0|only for ai only for deep learning actually right so you gonna run the deep learning operations very quickly.
+data/wei/li_wei_8.wav|0|Our job within our team is to make sure, we optimize tensorflow pytorch and mxnet all of these very well on the platforms intel is providing.
+data/wei/li_wei_9.wav|0|Piece of hardware is not sufficient, you need advanced software to make the hardware shine.

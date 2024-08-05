@@ -32,7 +32,7 @@ from losses import (
 )
 from mel_processing import mel_spectrogram_torch, spec_to_mel_torch
 from text.symbols import symbols
-
+import datetime
 
 torch.backends.cudnn.benchmark = True
 global_step = 0
@@ -42,15 +42,23 @@ def main():
   """Assume Single Node Multi GPUs Training Only"""
   assert torch.cuda.is_available(), "CPU training is not allowed."
 
-  n_gpus = torch.cuda.device_count()
+  # n_gpus = torch.cuda.device_count()
   os.environ['MASTER_ADDR'] = 'localhost'
-  os.environ['MASTER_PORT'] = '80000'
+  os.environ['MASTER_PORT'] = '8000'
 
   hps = utils.get_hparams()
-  mp.spawn(run, nprocs=n_gpus, args=(n_gpus, hps,))
+  # mp.spawn(run, nprocs=n_gpus, args=(n_gpus, hps,))
+  dist.init_process_group(
+    backend='nccl',
+    init_method='env://',
+    timeout=datetime.timedelta(seconds=300),
+  )
+  rank = dist.get_rank()
+  torch.manual_seed(hps.train.seed)
+  torch.cuda.set_device(rank)
+  n_gpus = dist.get_world_size()
 
-
-def run(rank, n_gpus, hps):
+# def run(rank, n_gpus, hps):
   global global_step
   if rank == 0:
     logger = utils.get_logger(hps.model_dir)
@@ -59,9 +67,7 @@ def run(rank, n_gpus, hps):
     writer = SummaryWriter(log_dir=hps.model_dir)
     writer_eval = SummaryWriter(log_dir=os.path.join(hps.model_dir, "eval"))
 
-  dist.init_process_group(backend='nccl', init_method='env://', world_size=n_gpus, rank=rank)
-  torch.manual_seed(hps.train.seed)
-  torch.cuda.set_device(rank)
+
 
   train_dataset = TextAudioSpeakerLoader(hps.data.training_files, hps.data)
   train_sampler = DistributedBucketSampler(
