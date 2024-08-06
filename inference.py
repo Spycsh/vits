@@ -80,5 +80,6 @@ with torch.no_grad():
     sid = torch.LongTensor([args.speaker]).cuda()
     audio = net_g.infer(x_tst, x_tst_lengths, sid=sid, noise_scale=.667, noise_scale_w=0.8, length_scale=1)[0][0,0].data.cpu().float().numpy()
 
+config_name = args.config.split("/")[-1].split(".")[-2]
 model_name = args.model.split("/")[-1].split(".")[-2]
-write(f"output_{model_name}_{int(sid)}.wav", rate=hps.data.sampling_rate, data=audio)
+write(f"output_{config_name}_{model_name}_{int(sid)}.wav", rate=hps.data.sampling_rate, data=audio)
