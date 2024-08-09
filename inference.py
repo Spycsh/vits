@@ -93,7 +93,7 @@ with torch.no_grad():
             stn_tst = get_text(texts[i], hps)
             concrete_lengths = stn_tst.size(0)
 
-            stn_tst = torch.nn.functional.pad(stn_tst, (0, -stn_tst.size(0)), value=0)
+            stn_tst = torch.nn.functional.pad(stn_tst, (0, max_hpu_len-stn_tst.size(0)), value=0)
             x_tst = stn_tst.to(device=args.device).unsqueeze(0)
             x_tst_lengths = torch.LongTensor([concrete_lengths]).to(device=args.device)
             sid = torch.LongTensor([args.speaker]).to(device=args.device)
