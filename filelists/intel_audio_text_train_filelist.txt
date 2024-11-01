@@ -1,6 +1,0 @@
-data/wei/li_wei_1.wav|0|i think last time we checked is many many billions of dollars every year.
-data/wei/li_wei_2.wav|0|Intel has changed quite a bit.
-data/wei/li_wei_3.wav|0|We have a vision to be software first, but i think today i am very glad to see we have evolved into somewhere.
-data/wei/li_wei_4.wav|0|is a good change for a variety of reasons, ah you know for good reason for our hardware products it is also a good reason for our developers
-data/wei/li_wei_5.wav|0|intel has become a software plus in hardware company here.
-data/wei/li_wei_6.wav|0|So performance is actually very critical. Now deep learning specifically is a large amount of computation, and within the industry there is a lot of people trying to develop different ways of accelerating.
